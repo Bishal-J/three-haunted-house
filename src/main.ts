@@ -20,6 +20,21 @@ const floorRoughnessTexture = textureLoader.load(
   "/textures/rocky-floor/roughness.jpg"
 );
 
+floorColorTexture.repeat.set(4, 4);
+floorAOTexture.repeat.set(4, 4);
+floorNormalTexture.repeat.set(4, 4);
+floorRoughnessTexture.repeat.set(4, 4);
+
+floorColorTexture.wrapS = THREE.RepeatWrapping;
+floorAOTexture.wrapS = THREE.RepeatWrapping;
+floorNormalTexture.wrapS = THREE.RepeatWrapping;
+floorRoughnessTexture.wrapS = THREE.RepeatWrapping;
+
+floorColorTexture.wrapT = THREE.RepeatWrapping;
+floorAOTexture.wrapT = THREE.RepeatWrapping;
+floorNormalTexture.wrapT = THREE.RepeatWrapping;
+floorRoughnessTexture.wrapT = THREE.RepeatWrapping;
+
 // Scene
 const scene = new THREE.Scene();
 
@@ -40,7 +55,7 @@ floor.geometry.setAttribute(
 floor.rotation.x = -Math.PI * 0.5;
 scene.add(floor);
 
-// Lights
+// Ambient Light
 const ambientLight = new THREE.AmbientLight("#b9d5ff", 0.5);
 gui
   .add(ambientLight, "intensity")
@@ -58,6 +73,9 @@ gui.add(moonLight.position, "x").min(-5).max(5).step(0.001);
 gui.add(moonLight.position, "y").min(-5).max(5).step(0.001);
 gui.add(moonLight.position, "z").min(-5).max(5).step(0.001);
 scene.add(moonLight);
+
+const fog = new THREE.Fog("#262837", 1, 15);
+scene.fog = fog;
 
 // Sizes
 const sizes = {
@@ -99,6 +117,9 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+// Adding fog
+renderer.setClearColor("#262837");
 
 // Controls
 const controls = new OrbitControls(camera, canvas);
