@@ -5,7 +5,7 @@ import * as THREE from "three";
 import { GUI } from "lil-gui";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-const gui = new GUI();
+// const gui = new GUI();
 const canvas = document.querySelector("canvas.webgl") as HTMLCanvasElement;
 const scene = new THREE.Scene();
 scene.fog = new THREE.Fog("#262837", 1, 15);
@@ -211,13 +211,13 @@ for (let i = 0; i < graveCount; i++) {
 // Lights
 const ambientLight = new THREE.AmbientLight("#b9d5ff", 0.5);
 scene.add(ambientLight);
-gui.add(ambientLight, "intensity").min(0).max(1).step(0.001).name("Ambient");
+// gui.add(ambientLight, "intensity").min(0).max(1).step(0.001).name("Ambient");
 
 const moonLight = new THREE.DirectionalLight("#b9d5ff", 0.12);
 moonLight.position.set(4, 5, -2);
 moonLight.castShadow = true;
 scene.add(moonLight);
-gui.add(moonLight, "intensity").min(0).max(1).step(0.001).name("Moon Light");
+// gui.add(moonLight, "intensity").min(0).max(1).step(0.001).name("Moon Light");
 
 // Ghosts
 const ghostLights = [
