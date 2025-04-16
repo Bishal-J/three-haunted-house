@@ -265,7 +265,7 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 
-camera.position.set(0, 3, 10);
+camera.position.set(4, 4, 8);
 scene.add(camera);
 
 const canvas = document.querySelector("canvas.webgl") as HTMLCanvasElement;
