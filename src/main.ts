@@ -1,8 +1,5 @@
-// OPTIMIZED HAUNTED HOUSE
-
 import "./style.css";
 import * as THREE from "three";
-import { GUI } from "lil-gui";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 // const gui = new GUI();
@@ -149,13 +146,19 @@ house.add(door);
 // Bushes
 const bushGeometry = new THREE.SphereGeometry(1, 16, 16);
 const bushMaterial = new THREE.MeshStandardMaterial({ color: "#89c854" });
+interface BushOptions {
+  s: number;
+  p: [number, number, number];
+}
 
-[
+const bushes: BushOptions[] = [
   { s: 0.5, p: [1.1, 0.2, 2.2] },
   { s: 0.25, p: [1.7, 0.1, 2.1] },
   { s: 0.4, p: [-2.8, 0.1, 2.2] },
   { s: 0.15, p: [-3, 0.05, 2.6] },
-].forEach(({ s, p }) => {
+];
+
+bushes.forEach(({ s, p }) => {
   const bush = new THREE.Mesh(bushGeometry, bushMaterial);
   bush.scale.setScalar(s);
   bush.position.set(...p);
@@ -211,13 +214,11 @@ for (let i = 0; i < graveCount; i++) {
 // Lights
 const ambientLight = new THREE.AmbientLight("#b9d5ff", 0.5);
 scene.add(ambientLight);
-// gui.add(ambientLight, "intensity").min(0).max(1).step(0.001).name("Ambient");
 
 const moonLight = new THREE.DirectionalLight("#b9d5ff", 0.12);
 moonLight.position.set(4, 5, -2);
 moonLight.castShadow = true;
 scene.add(moonLight);
-// gui.add(moonLight, "intensity").min(0).max(1).step(0.001).name("Moon Light");
 
 // Ghosts
 const ghostLights = [
