@@ -14,7 +14,6 @@ const wallColorTexture = textureLoader.load("/textures/wall/color.jpg");
 const wallAOTexture = textureLoader.load("/textures/wall/aoTexture.jpg");
 const wallNormalTexture = textureLoader.load("/textures/wall/normal.jpg");
 const wallRoughnessTexture = textureLoader.load("/textures/wall/roughness.jpg");
-const wallHeightTexture = textureLoader.load("/textures/wall/height.jpg");
 
 // Floor Texture
 const floorColorTexture = textureLoader.load("/textures/floor/color.jpg");
@@ -47,7 +46,7 @@ const house = new THREE.Group();
 scene.add(house);
 
 // Wall
-const wallGeometry = new THREE.BoxGeometry(6, 2.5, 6, 100, 100, 100);
+const wallGeometry = new THREE.BoxGeometry(8, 3, 4);
 const wallMaterial = new THREE.MeshStandardMaterial({
   map: wallColorTexture,
   aoMap: wallAOTexture,
@@ -60,11 +59,28 @@ wall.geometry.setAttribute(
   "uv",
   new THREE.Float32BufferAttribute(wall.geometry.attributes.uv.array, 2)
 );
-
+wall.position.y = 3 * 0.5;
 house.add(wall);
 
-wall.position.y = 2.5 * 0.5;
+// Tower 1
+const towerGeometry = new THREE.CylinderGeometry(2, 2, 4);
+const towerMaterial = new THREE.MeshStandardMaterial({
+  map: wallColorTexture,
+  aoMap: wallAOTexture,
+  normalMap: wallNormalTexture,
+  roughnessMap: wallRoughnessTexture,
+});
+const tower1 = new THREE.Mesh(towerGeometry, towerMaterial);
 
+tower1.position.x = 4;
+tower1.position.y = 4 * 0.5;
+
+const tower2 = new THREE.Mesh(towerGeometry, towerMaterial);
+
+tower2.position.x = -4;
+tower2.position.y = 4 * 0.5;
+
+house.add(tower1, tower2);
 // Floor
 const floorGeometry = new THREE.PlaneGeometry(20, 20);
 const floorMaterial = new THREE.MeshStandardMaterial({
@@ -119,7 +135,7 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 
-camera.position.set(4, 2, 5);
+camera.position.set(0, 3, 10);
 scene.add(camera);
 
 const canvas = document.querySelector("canvas.webgl") as HTMLCanvasElement;
