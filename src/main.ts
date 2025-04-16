@@ -21,6 +21,17 @@ const tileAoTexture = textureLoader.load("/textures/tiles/aoTexture.jpg");
 const tileNormal = textureLoader.load("/textures/tiles/normal.jpg");
 const tileRoughness = textureLoader.load("/textures/tiles/roughness.jpg");
 
+// Door Texture
+const doorColorTexture = textureLoader.load("/textures/door/color.jpg");
+const doorAlphaTexture = textureLoader.load("/textures/door/alpha.jpg");
+const doorAmbientOcclusionTexture = textureLoader.load(
+  "/textures/door/ambientOcclusion.jpg"
+);
+const doorHeightTexture = textureLoader.load("/textures/door/height.jpg");
+const doorNormalTexture = textureLoader.load("/textures/door/normal.jpg");
+const doorMetalnessTexture = textureLoader.load("/textures/door/metalness.jpg");
+const doorRoughnessTexture = textureLoader.load("/textures/door/roughness.jpg");
+
 // Floor Texture
 const floorColorTexture = textureLoader.load("/textures/floor/color.jpg");
 const floorAOTexture = textureLoader.load("/textures/floor/aoTexture.jpg");
@@ -95,6 +106,31 @@ tower2.position.x = -4;
 tower2.position.y = 4 * 0.5;
 
 house.add(tower1, tower2);
+
+// Door
+const doorGeometry = new THREE.PlaneGeometry(2.4, 2.2);
+const doorMaterial = new THREE.MeshStandardMaterial({
+  map: doorColorTexture,
+  transparent: true,
+  alphaMap: doorAlphaTexture,
+  aoMap: doorAmbientOcclusionTexture,
+  displacementMap: doorHeightTexture,
+  displacementScale: 0.1,
+  normalMap: doorNormalTexture,
+  metalnessMap: doorMetalnessTexture,
+  roughnessMap: doorRoughnessTexture,
+});
+
+const door = new THREE.Mesh(doorGeometry, doorMaterial);
+
+door.geometry.setAttribute(
+  "uv",
+  new THREE.Float32BufferAttribute(door.geometry.attributes.uv.array, 2)
+);
+
+door.position.z = 2 + 0.01;
+door.position.y = 1;
+house.add(door);
 
 // Roof
 const roofGeomtery = new THREE.ConeGeometry(2.4, 1.5, 8);
