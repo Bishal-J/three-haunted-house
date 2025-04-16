@@ -9,15 +9,19 @@ const gui = new GUI();
 // Textures
 const textureLoader = new THREE.TextureLoader();
 
-const floorColorTexture = textureLoader.load("/textures/rocky-floor/color.jpg");
-const floorAOTexture = textureLoader.load(
-  "/textures/rocky-floor/aoTexture.jpg"
-);
-const floorNormalTexture = textureLoader.load(
-  "/textures/rocky-floor/normal.jpg"
-);
+// Wall Texture
+const wallColorTexture = textureLoader.load("/textures/wall/color.jpg");
+const wallAOTexture = textureLoader.load("/textures/wall/aoTexture.jpg");
+const wallNormalTexture = textureLoader.load("/textures/wall/normal.jpg");
+const wallRoughnessTexture = textureLoader.load("/textures/wall/roughness.jpg");
+const wallHeightTexture = textureLoader.load("/textures/wall/height.jpg");
+
+// Floor Texture
+const floorColorTexture = textureLoader.load("/textures/floor/color.jpg");
+const floorAOTexture = textureLoader.load("/textures/floor/aoTexture.jpg");
+const floorNormalTexture = textureLoader.load("/textures/floor/normal.jpg");
 const floorRoughnessTexture = textureLoader.load(
-  "/textures/rocky-floor/roughness.jpg"
+  "/textures/floor/roughness.jpg"
 );
 
 floorColorTexture.repeat.set(4, 4);
@@ -38,6 +42,30 @@ floorRoughnessTexture.wrapT = THREE.RepeatWrapping;
 // Scene
 const scene = new THREE.Scene();
 
+// House
+const house = new THREE.Group();
+scene.add(house);
+
+// Wall
+const wallGeometry = new THREE.BoxGeometry(6, 2.5, 6, 100, 100, 100);
+const wallMaterial = new THREE.MeshStandardMaterial({
+  map: wallColorTexture,
+  aoMap: wallAOTexture,
+  normalMap: wallNormalTexture,
+  roughnessMap: wallRoughnessTexture,
+});
+const wall = new THREE.Mesh(wallGeometry, wallMaterial);
+
+wall.geometry.setAttribute(
+  "uv",
+  new THREE.Float32BufferAttribute(wall.geometry.attributes.uv.array, 2)
+);
+
+house.add(wall);
+
+wall.position.y = 2.5 * 0.5;
+
+// Floor
 const floorGeometry = new THREE.PlaneGeometry(20, 20);
 const floorMaterial = new THREE.MeshStandardMaterial({
   map: floorColorTexture,
