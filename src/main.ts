@@ -9,11 +9,17 @@ const gui = new GUI();
 // Textures
 const textureLoader = new THREE.TextureLoader();
 
-// Wall Texture
-const wallColorTexture = textureLoader.load("/textures/wall/color.jpg");
-const wallAOTexture = textureLoader.load("/textures/wall/aoTexture.jpg");
-const wallNormalTexture = textureLoader.load("/textures/wall/normal.jpg");
-const wallRoughnessTexture = textureLoader.load("/textures/wall/roughness.jpg");
+// Brick Texture
+const brickColor = textureLoader.load("/textures/wall/color.jpg");
+const brickAoTexture = textureLoader.load("/textures/wall/aoTexture.jpg");
+const brickNormal = textureLoader.load("/textures/wall/normal.jpg");
+const brickRoughness = textureLoader.load("/textures/wall/roughness.jpg");
+
+// Tiles Texture
+const tileColor = textureLoader.load("/textures/tiles/color.jpg");
+const tileAoTexture = textureLoader.load("/textures/tiles/aoTexture.jpg");
+const tileNormal = textureLoader.load("/textures/tiles/normal.jpg");
+const tileRoughness = textureLoader.load("/textures/tiles/roughness.jpg");
 
 // Floor Texture
 const floorColorTexture = textureLoader.load("/textures/floor/color.jpg");
@@ -48,10 +54,10 @@ scene.add(house);
 // Wall
 const wallGeometry = new THREE.BoxGeometry(8, 3, 4);
 const wallMaterial = new THREE.MeshStandardMaterial({
-  map: wallColorTexture,
-  aoMap: wallAOTexture,
-  normalMap: wallNormalTexture,
-  roughnessMap: wallRoughnessTexture,
+  map: brickColor,
+  aoMap: brickAoTexture,
+  normalMap: brickNormal,
+  roughnessMap: brickRoughness,
 });
 const wall = new THREE.Mesh(wallGeometry, wallMaterial);
 
@@ -65,22 +71,59 @@ house.add(wall);
 // Tower 1
 const towerGeometry = new THREE.CylinderGeometry(2, 2, 4);
 const towerMaterial = new THREE.MeshStandardMaterial({
-  map: wallColorTexture,
-  aoMap: wallAOTexture,
-  normalMap: wallNormalTexture,
-  roughnessMap: wallRoughnessTexture,
+  map: brickColor,
+  aoMap: brickAoTexture,
+  normalMap: brickNormal,
+  roughnessMap: brickRoughness,
 });
+
 const tower1 = new THREE.Mesh(towerGeometry, towerMaterial);
+const tower2 = new THREE.Mesh(towerGeometry, towerMaterial);
+
+tower1.geometry.setAttribute(
+  "uv",
+  new THREE.Float32BufferAttribute(tower1.geometry.attributes.uv.array, 2)
+);
+tower2.geometry.setAttribute(
+  "uv",
+  new THREE.Float32BufferAttribute(tower2.geometry.attributes.uv.array, 2)
+);
 
 tower1.position.x = 4;
 tower1.position.y = 4 * 0.5;
-
-const tower2 = new THREE.Mesh(towerGeometry, towerMaterial);
-
 tower2.position.x = -4;
 tower2.position.y = 4 * 0.5;
 
 house.add(tower1, tower2);
+
+// Roof
+const roofGeomtery = new THREE.ConeGeometry(2.4, 1.5, 8);
+const roofMaterial = new THREE.MeshStandardMaterial({
+  map: tileColor,
+  aoMap: tileAoTexture,
+  normalMap: tileNormal,
+  roughnessMap: tileRoughness,
+});
+
+const roof1 = new THREE.Mesh(roofGeomtery, roofMaterial);
+const roof2 = new THREE.Mesh(roofGeomtery, roofMaterial);
+
+roof1.geometry.setAttribute(
+  "uv",
+  new THREE.Float32BufferAttribute(roof1.geometry.attributes.uv.array, 2)
+);
+roof2.geometry.setAttribute(
+  "uv",
+  new THREE.Float32BufferAttribute(roof2.geometry.attributes.uv.array, 2)
+);
+
+roof1.position.x = 4;
+roof1.position.y = 4 + 0.7;
+roof2.position.x = -4;
+roof2.position.y = 4 + 0.7;
+
+house.add(roof1, roof2);
+
 // Floor
 const floorGeometry = new THREE.PlaneGeometry(20, 20);
 const floorMaterial = new THREE.MeshStandardMaterial({
